@@ -12,8 +12,43 @@ El propósito de este laboratorio de la materia de Arquitecturas de Softwate (AR
 Se realizó la implementación de los códigos "CountThread" y "CountThreadsMain".
 
 "CountThread":
+public class CountThread extends Thread {
+    
+    private int start;
+    private int end;
+    
+    public CountThread(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+    
+    @Override
+    public void run() {
+        for (int i = start; i <= end; i++) {
+            System.out.println("Thread " + Thread.currentThread().getName() + ": " + i);
+        }
+    }
+}
 
 "CountThreadsMain":
+public class CountThreadsMain {
+    
+    public static void main(String a[]){
+        CountThread thread1 = new CountThread(0, 99);
+        CountThread thread2 = new CountThread(99, 199);
+        CountThread thread3 = new CountThread(200, 299);
+        
+        //System.out.println("Usando start()");
+        //thread1.start();
+        //thread2.start();
+        //thread3.start();
+        System.out.println("Usando run()");
+        thread1.run();
+        thread2.run();
+        thread3.run();
+    }
+}
+
 
 Luego de la implementación en código, se probó la ejecución del main tanto con start como con run.
 
