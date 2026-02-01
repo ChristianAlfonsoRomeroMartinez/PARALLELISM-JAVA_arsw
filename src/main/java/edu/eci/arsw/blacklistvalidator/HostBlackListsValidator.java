@@ -5,13 +5,11 @@
  */
 package edu.eci.arsw.blacklistvalidator;
 
-import java.util.ArrayList;
+import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
 /**
  *
@@ -20,7 +18,6 @@ import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 public class HostBlackListsValidator {
 
     private static final int BLACK_LIST_ALARM_COUNT=5;
-    //Inicia el registro de log, si axiste accede a el en caso que no lo crea
     
     /**
      * Check the given host's IP address in all the available black lists,
@@ -64,56 +61,9 @@ public class HostBlackListsValidator {
         
         return blackListOcurrences;
     }
-
+    
+    
     private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());
-
-
-    public List<Integer> checkHostParalelo(String ipaddress, int nThreads) {
-        LinkedList<Integer> blackListOcurrences = new LinkedList<>();
-        HostBlacklistsDataSourceFacade skds = HostBlacklistsDataSourceFacade.getInstance();
-        int totalServers = skds.getRegisteredServersCount();
-
-        List<BlacklistCheckerThread> threads = new ArrayList<>();
-
-        int serversPerThread = totalServers / nThreads;
-
-        for (int i = 0; i < nThreads; i++) {
-            int startServer = i * serversPerThread;
-            int endServer = (i == nThreads - 1) ? totalServers : (i + 1) * serversPerThread;
-
-            BlacklistCheckerThread thread = new BlacklistCheckerThread(ipaddress, startServer, endServer, skds);
-            threads.add(thread);
-            thread.start();
-        }
-
-        int totalCheckedLists = 0;
-        int totalOccurrences = 0;
-
-        for (BlacklistCheckerThread thread : threads) {
-            try {
-                thread.join();
-                List<Integer> foundLists = thread.getFoundLists();
-                blackListOcurrences.addAll(foundLists);
-                totalOccurrences += thread.getOccurrencesCount();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                LOG.log(Level.SEVERE, "En espera del hilo", e);
-            }
-        }
-
-        totalCheckedLists = totalServers;
-
-        if (totalOccurrences >= BLACK_LIST_ALARM_COUNT) {
-            skds.reportAsNotTrustworthy(ipaddress);
-        } else {
-            skds.reportAsTrustworthy(ipaddress);
-        }
-
-        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}",
-                new Object[]{totalCheckedLists, totalServers});
-        return blackListOcurrences;
-    } 
-
     
     
     
