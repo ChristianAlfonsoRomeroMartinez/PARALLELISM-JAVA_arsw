@@ -65,3 +65,18 @@ Con run:
 Así como se evidencia en las fotografías, hay diferencias claves si utilizamos start o run. En primer lugar, al iniciar con start, se crean nuevos hilos que ejecutan en paralelo, lo cual hace que se presente una salida entrelazada, es decir, se ejecuta el hilo 0, luego el hilo 1, luego el hilo 2 en la mayoría de los casos, también se presenta el caso donde a alguno de los hilos se le ejecute un número de más pero mantiene siempre ese orden.
 
 Mientras que al iniciar con run, se ejecutan los hilos pequeños en el hilo principal secuencialmente, se presenta una salida ordenada por hilos, que así como se ve en la imagen, se ejecutan todos los hilos en orden (primero el hilo 0 con todos los números, luego el hilo 1 de la misma manera y por último el hilo 2)
+
+
+
+
+## Parte 2.1: Discusión
+Como bien ya se explica dentro del enunciado, la estrategia es ineficiente en su planteamiento inicial, porque cada hilo completa su segmento completo sin importar si otros hilos ya encontraron suficientes ocurrencias. Si entre todos los hilos ya se alcanzó BLACK_LIST_ALARM_COUNT=5, deberían detenerse inmediatamente.
+La nueva implementación pensada para minimizar el número de consultas, es el de implementar un contador compartido de ocurrencias entre todos los hilos, que permita:
+1. Que cada hilo incremente el contador cuando encuentra una ocurrencia
+2. Que cada hilo verifique periódicamente si ya se alcanzó el límite
+3. Que los hilos se detengan cuando el contador llegue a 5
+Sin embargo, esta nueva implementación trae un nuevo problema con respecto a la sincronización y la concurrencia porque:
+- Múltiples hilos necesitan acceder y modificar el mismo contador (variable compartida)
+- Se requiere exclusión mutua para evitar condiciones de carrera (race conditions)
+- Se necesitan usar cosas como: synchronized, AtomicInteger, volatile para poder arreglar este nuevo problema.
+
