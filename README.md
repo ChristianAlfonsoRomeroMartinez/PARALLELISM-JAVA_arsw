@@ -80,3 +80,67 @@ Sin embargo, esta nueva implementación trae un nuevo problema con respecto a la
 - Se requiere exclusión mutua para evitar condiciones de carrera (race conditions)
 - Se necesitan usar cosas como: synchronized, AtomicInteger, volatile para poder arreglar este nuevo problema.
 
+## Parte 3: Evaluación de Desempeño
+
+Primero vamos a evaluarlo con JAVA.
+
+1 hilo:
+
+Mientras estaba en ejecución:
+![alt text](img/hilo1ejec.png)
+
+![alt text](img/hilo1ejec2.png)
+
+Después de su ejecución:
+![alt text](img/hilo1later.png)
+
+![alt text](img/hilo1later2.png)
+
+#núcleos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/coresBefore.png)
+
+Después de su ejecución:
+
+![alt text](img/coresAfter.png)
+
+![alt text](img/coresAfter2.png)
+
+#núcleos *2:
+
+Mientras estaba en ejecución:
+
+![alt text](img/cores2Before.png)
+
+Después de su ejecución:
+
+![alt text](img/cores2After.png)
+
+![alt text](img/cores2After2.png)
+
+Para 50, 100, 1000 y 10000 fue tan rápido todo que no pudimos sacar captura del jVisualVM.
+
+100000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/thousandBefore.png)
+
+Después de la ejecución:
+
+![alt text](img/thousandAfter.png)
+
+![alt text](img/thousandAfter2.png)
+
+1000000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/millionBefore.png)
+
+Después de la ejecución:
+
+![alt text](img/millionAfter.png)
+
