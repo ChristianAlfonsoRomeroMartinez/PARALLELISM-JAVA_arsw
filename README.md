@@ -12,8 +12,43 @@ El propósito de este laboratorio de la materia de Arquitecturas de Softwate (AR
 Se realizó la implementación de los códigos "CountThread" y "CountThreadsMain".
 
 "CountThread":
+public class CountThread extends Thread {
+    
+    private int start;
+    private int end;
+    
+    public CountThread(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+    
+    @Override
+    public void run() {
+        for (int i = start; i <= end; i++) {
+            System.out.println("Thread " + Thread.currentThread().getName() + ": " + i);
+        }
+    }
+}
 
 "CountThreadsMain":
+public class CountThreadsMain {
+    
+    public static void main(String a[]){
+        CountThread thread1 = new CountThread(0, 99);
+        CountThread thread2 = new CountThread(99, 199);
+        CountThread thread3 = new CountThread(200, 299);
+        
+        //System.out.println("Usando start()");
+        //thread1.start();
+        //thread2.start();
+        //thread3.start();
+        System.out.println("Usando run()");
+        thread1.run();
+        thread2.run();
+        thread3.run();
+    }
+}
+
 
 Luego de la implementación en código, se probó la ejecución del main tanto con start como con run.
 
@@ -44,4 +79,68 @@ Sin embargo, esta nueva implementación trae un nuevo problema con respecto a la
 - Múltiples hilos necesitan acceder y modificar el mismo contador (variable compartida)
 - Se requiere exclusión mutua para evitar condiciones de carrera (race conditions)
 - Se necesitan usar cosas como: synchronized, AtomicInteger, volatile para poder arreglar este nuevo problema.
+
+## Parte 3: Evaluación de Desempeño
+
+Primero vamos a evaluarlo con JAVA.
+
+1 hilo:
+
+Mientras estaba en ejecución:
+![alt text](img/hilo1ejec.png)
+
+![alt text](img/hilo1ejec2.png)
+
+Después de su ejecución:
+![alt text](img/hilo1later.png)
+
+![alt text](img/hilo1later2.png)
+
+#núcleos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/coresBefore.png)
+
+Después de su ejecución:
+
+![alt text](img/coresAfter.png)
+
+![alt text](img/coresAfter2.png)
+
+#núcleos *2:
+
+Mientras estaba en ejecución:
+
+![alt text](img/cores2Before.png)
+
+Después de su ejecución:
+
+![alt text](img/cores2After.png)
+
+![alt text](img/cores2After2.png)
+
+Para 50, 100, 1000 y 10000 fue tan rápido todo que no pudimos sacar captura del jVisualVM.
+
+100000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/thousandBefore.png)
+
+Después de la ejecución:
+
+![alt text](img/thousandAfter.png)
+
+![alt text](img/thousandAfter2.png)
+
+1000000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/millionBefore.png)
+
+Después de la ejecución:
+
+![alt text](img/millionAfter.png)
 
