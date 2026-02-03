@@ -67,6 +67,22 @@ Así como se evidencia en las fotografías, hay diferencias claves si utilizamos
 Mientras que al iniciar con run, se ejecutan los hilos pequeños en el hilo principal secuencialmente, se presenta una salida ordenada por hilos, que así como se ve en la imagen, se ejecutan todos los hilos en orden (primero el hilo 0 con todos los números, luego el hilo 1 de la misma manera y por último el hilo 2)
 
 
+## Parte 2: Ejercicio Black List Search
+Siguiendo las instrucciones del enunciado en la clase hostBlackValidator agregamos el método checkHostParalelo, a pesar de que el enunciado pedía agregar el método checkHost, pero este ya estaba implementado como búsqueda no exhaustiva, por lo que decidimos dejarlo para poder hacer comparaciones entre este método y el que implementamos.
+
+El método checkHostParalelo cuenta con 2 entradas, la primera de ellas la dirección ip que vamos a analizar y buscar en los repos de ips reportadas, y la segunda en cuantos hilos vamos a hacer la búsqueda. 
+
+Entrando mas a detalle, primero creamos una lista para guardar las listas donde encontremos la ip reportada y revisa cuantas listas tenemos, luego hacemos la división del trabajo para asignar las tareas a cada uno de los hilos, en este caso asignamos de cual hasta cual lista debe revisar cada hilo, una vez iniciado el trabajo debemos esperar que todos terminen como una estrategia de sincronización, así la recolección de datos es confiable y podemos proceder con el reporte.
+
+En la clase BlackListThread tenemos la esencia de la búsqueda, es decir es donde se verifica si la ip esta en la lista de listas asignadas al hilo, en esencia retorna donde encuentra la ip y cuenta cuantas veces la encuentra
+
+Por ultimo en main hicimos una pequeña modificación cambiando el llamado de checkHost por checkHostParalelo y sus respectivos argumentos.
+
+
+
+
+
+
 
 
 ## Parte 2.1: Discusión
