@@ -49,6 +49,12 @@ Sin embargo, esta nueva implementación trae un nuevo problema con respecto a la
 
 Primero vamos a evaluarlo con JAVA.
 
+
+Primer computador a evaluar
+
+Caracteristicas
+![alt text](img/nacholaptop.jpeg)
+
 1 hilo:
 
 Mientras estaba en ejecución:
@@ -110,6 +116,7 @@ Después de la ejecución:
 
 ![alt text](img/millionAfter.png)
 
+<<<<<<< Updated upstream
 Ahora pasamos a la ejecución con Go; Go de por sí es es demasiado eficiente en su ejecución, haciendo que la concurrencia sea mucho más ligera. Entonces las primeras pruebas de ejecución (con baja cantidad de hilos), el tiempo de ejecución es 0ms, porque lo hace más eficiente de lo que Java lo llega a hacer. Desde 100 hilos se ven los tiempos (diferentes a 0), los cuales dieron los siguientes tiempos:
 
 ![alt text](img/go2.png)
@@ -197,3 +204,63 @@ Escenario B: 1,028 ms
 
 Entonces, si se mejora la distribución porque existiría una escalabilidad horizontal, menos contención por lo que cada máquina trabaja de manera independiente y hay un mejor uso de la Ley de Amdahls.
 
+=======
+
+# Segundo computador a evaluar
+
+Caracteristicas
+![alt text](img/chrislaptop.png)
+
+## 1 hilo:
+
+Mientras estaba en ejecución:
+![alt text](img/coreh1.png)
+![alt text](img/threds.png)
+
+Después de su ejecución:
+![alt text](img/despuescore1.png)
+![alt text](img/thredsh1des.png)
+
+
+## núcleos: 16
+
+Mientras estaba en ejecución:
+![alt text](img/coresin.png)
+![alt text](img/threadsin.png)
+
+Después de su ejecución:
+![alt text](img/coreend.png)
+![alt text](img/threadsend.png)
+
+## núcleos: 16*2
+
+Mientras estaba en ejecución:
+![alt text](img/core2in.png)
+![alt text](img/alwaystheard2.png)
+
+Después de su ejecución:
+![alt text](img/core2end.png)
+![alt text](img/alwaystheard2.png)
+
+## 100000 hilos:
+
+Mientras estaba en ejecución:
+![alt text](img/102core.png)
+![alt text](img/102thread.png)
+
+Después de su ejecución:
+![alt text](img/102coreend.png)
+![alt text](img/102threadend.png)
+
+## 1000000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/103core.png)
+![alt text](img/103thread.png)
+
+Después de la ejecución:
+
+![alt text](img/103coreend.png)
+![alt text](img/103threadend.png)
+>>>>>>> Stashed changes
