@@ -130,6 +130,64 @@ Java:
 Go:
 ![alt text](img/tiempoGo.png)
 
+# Segundo computador a evaluar
+
+Caracteristicas
+![alt text](img/chrislaptop.png)
+
+## 1 hilo:
+
+Mientras estaba en ejecución:
+![alt text](img/coreh1.png)
+![alt text](img/threds.png)
+
+Después de su ejecución:
+![alt text](img/despuescore1.png)
+![alt text](img/thredsh1des.png)
+
+
+## núcleos: 16
+
+Mientras estaba en ejecución:
+![alt text](img/coresin.png)
+![alt text](img/threadsin.png)
+
+Después de su ejecución:
+![alt text](img/coreend.png)
+![alt text](img/threadsend.png)
+
+## núcleos: 16*2
+
+Mientras estaba en ejecución:
+![alt text](img/core2in.png)
+![alt text](img/alwaystheard2.png)
+
+Después de su ejecución:
+![alt text](img/core2end.png)
+![alt text](img/alwaystheard2.png)
+
+## 100000 hilos:
+
+Mientras estaba en ejecución:
+![alt text](img/102core.png)
+![alt text](img/102thread.png)
+
+Después de su ejecución:
+![alt text](img/102coreend.png)
+![alt text](img/102threadend.png)
+
+## 1000000 hilos:
+
+Mientras estaba en ejecución:
+
+![alt text](img/103core.png)
+![alt text](img/103thread.png)
+
+Después de la ejecución:
+
+![alt text](img/103coreend.png)
+![alt text](img/103threadend.png)
+
 Como se puede ver, los tiempos son más elevados usando Java que usando Go, Java inicia en aproximadamente 150.000 ms, luego baja encontrando un punto óptimo con 1000 hilos, y luego vuelve a elevarse el tiempo llevando a casi 200.000 ms con 1.000.000 de hilos, mientras que con Go se mantiene cercano a 0ms hasta los 10.000 hilos, ya con 100.000 hilos aumentó el tiempo a 26 ms.
 
 Viendo esto, e indagando un poco con respecto al funcionamiento a nivel de la concurrencia de cada lenguaje, podemos interpretar que Go es más eficiente en concurrencia que Java porque:
@@ -206,61 +264,4 @@ Entonces, si se mejora la distribución porque existiría una escalabilidad hori
 
 =======
 
-# Segundo computador a evaluar
 
-Caracteristicas
-![alt text](img/chrislaptop.png)
-
-## 1 hilo:
-
-Mientras estaba en ejecución:
-![alt text](img/coreh1.png)
-![alt text](img/threds.png)
-
-Después de su ejecución:
-![alt text](img/despuescore1.png)
-![alt text](img/thredsh1des.png)
-
-
-## núcleos: 16
-
-Mientras estaba en ejecución:
-![alt text](img/coresin.png)
-![alt text](img/threadsin.png)
-
-Después de su ejecución:
-![alt text](img/coreend.png)
-![alt text](img/threadsend.png)
-
-## núcleos: 16*2
-
-Mientras estaba en ejecución:
-![alt text](img/core2in.png)
-![alt text](img/alwaystheard2.png)
-
-Después de su ejecución:
-![alt text](img/core2end.png)
-![alt text](img/alwaystheard2.png)
-
-## 100000 hilos:
-
-Mientras estaba en ejecución:
-![alt text](img/102core.png)
-![alt text](img/102thread.png)
-
-Después de su ejecución:
-![alt text](img/102coreend.png)
-![alt text](img/102threadend.png)
-
-## 1000000 hilos:
-
-Mientras estaba en ejecución:
-
-![alt text](img/103core.png)
-![alt text](img/103thread.png)
-
-Después de la ejecución:
-
-![alt text](img/103coreend.png)
-![alt text](img/103threadend.png)
->>>>>>> Stashed changes
