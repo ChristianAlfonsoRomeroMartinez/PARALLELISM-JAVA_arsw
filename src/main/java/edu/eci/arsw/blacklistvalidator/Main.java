@@ -21,7 +21,7 @@ public class Main {
         int cores = Runtime.getRuntime().availableProcessors();
         System.out.println("Número de núcleos disponibles: " + cores);
 
-        int numThreads = 50;
+        int numThreads = 200;
         
         System.out.println("Iniciando prueba con " + numThreads + " hilo(s)");
         System.out.println("Probando IP: " + testIP);

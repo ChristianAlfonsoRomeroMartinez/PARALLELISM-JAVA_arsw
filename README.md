@@ -137,6 +137,7 @@ Después de su ejecución:
 ![alt text](img/cores2After2.png)
 
 Para 50, 100, 1000 y 10000 fue tan rápido todo que no pudimos sacar captura del jVisualVM.
+Tuvimos que dentro de la misma ejecución dentro de VS, poner un print para que nos pudiera dar el tiempo de ejecución en estos casos.
 
 100000 hilos:
 
@@ -159,4 +160,91 @@ Mientras estaba en ejecución:
 Después de la ejecución:
 
 ![alt text](img/millionAfter.png)
+
+Ahora pasamos a la ejecución con Go; Go de por sí es es demasiado eficiente en su ejecución, haciendo que la concurrencia sea mucho más ligera. Entonces las primeras pruebas de ejecución (con baja cantidad de hilos), el tiempo de ejecución es 0ms, porque lo hace más eficiente de lo que Java lo llega a hacer. Desde 100 hilos se ven los tiempos (diferentes a 0), los cuales dieron los siguientes tiempos:
+
+![alt text](img/go2.png)
+
+![alt text](img/go.png)
+
+Ya teniendo los tiempos utilizando los dos lenguajes, sacamos una gráfica para cada uno de los tiempos y estos fueron los resultados:
+
+Java:
+![alt text](img/tiempoJava.png)
+Go:
+![alt text](img/tiempoGo.png)
+
+Como se puede ver, los tiempos son más elevados usando Java que usando Go, Java inicia en aproximadamente 150.000 ms, luego baja encontrando un punto óptimo con 1000 hilos, y luego vuelve a elevarse el tiempo llevando a casi 200.000 ms con 1.000.000 de hilos, mientras que con Go se mantiene cercano a 0ms hasta los 10.000 hilos, ya con 100.000 hilos aumentó el tiempo a 26 ms.
+
+Viendo esto, e indagando un poco con respecto al funcionamiento a nivel de la concurrencia de cada lenguaje, podemos interpretar que Go es más eficiente en concurrencia que Java porque:
+1. Goroutines son 500x más ligeras que threads
+2. Scheduler en user-space evita syscalls costosos
+3. Work stealing automático para mejor balanceo
+4. Multiplexación M:N permite muchas goroutines sobre pocos threads reales
+5. Manejo inteligente de bloqueos mantiene CPU ocupada
+
+## Parte 4: Ejercicio Black List Search
+1. 
+El mejor desempeño no se logra con 500 hilos debido a que la cantidad de hilos usada, por más que da un tiempo aceptable, todavía no alcanza al punto óptimo de 1000 hilos. El tiempo utilizando 500 hilos da 309ms, mientras que con 1000 hilos nos daba 258ms, entonces con 1000 hilos es un 16% más rápido; si hacemos ahora la comparación con 200 hilos, el tiempo nos da 633ms, haciendo que con 500 hilos sea 51% más rápido. Es decir que a pesar que 500 hilos si es una buena cantidad de hilos según los recursos del computador, no saca el provecho al máximo, cosa que si ocurre con 1000 hilos.
+Existe un punto de saturación donde agregar más hilos no mejora proporcionalmente el rendimiento debido al overhead y la fracción no paralelizable del código.
+
+2. 
+Speedup de 12 hilos:  153,990 / 9,250  = 16.6x
+Speedup de 24 hilos:  153,990 / 4,644  = 33.2x
+
+Mejora de 12→24: 9,250 / 4,644 = 1.99x (casi el doble)
+
+La solución usando el doble de hilos que núcleos (24 hilos) se comporta significativamente mejor que usar solo los núcleos físicos (12 hilos):
+
+1. Aprovecha hyperthreading:
+
+- Tu CPU tiene 12 núcleos físicos con 2 threads lógicos cada uno
+- Total: 24 threads lógicos
+- Con 24 hilos aprovechas completamente el hyperthreading
+
+2. Mejor ocultamiento de latencia:
+
+- Las consultas a isInBlackListServer tienen latencia (I/O o delays)
+- Con 24 hilos, mientras un thread espera, otro puede ejecutar
+- Con solo 12 hilos, dejas recursos sin usar
+
+3. Problema I/O-bound:
+
+- Este problema NO es puramente CPU-bound
+- Hay esperas en cada consulta a la blacklist
+- Más hilos = mejor aprovechamiento del tiempo de espera
+
+3.
+Planteemos dos escenarios:
+Escenario A: 100 hilos en 1 CPU
+- Tiempo: 1,168 ms
+- Limitación: 12 núcleos físicos compartidos
+- Overhead: Context switching entre 100 hilos
+
+Escenario B: c hilos en 100/c máquinas distribuidas
+Supongamos que cada máquina tiene los mismos 12 núcleos.
+Ejemplo con c = 12:
+- 100/12 ≈ 8.33 máquinas (redondeamos a 9 máquinas)
+- Cada máquina ejecuta 12 hilos
+- Total: 9 máquinas × 12 hilos = 108 hilos
+
+Aplicando la ley de Amdahls, se aplicaría mejor para el escenario B. Esto debido a que:
+1. Paralelismo real:
+- Escenario A: 100 hilos compitiendo por 12 núcleos → paralelismo limitado
+- Escenario B: 9 máquinas × 12 núcleos = 108 núcleos reales → paralelismo verdadero
+
+2. Menos overhead:
+- Escenario A: Context switching masivo, contención de recursos
+- Escenario B: Cada máquina maneja solo c hilos, mucho más eficiente
+
+3. Cálculo favorece al escenario B
+Escenario A: 1,168 ms
+Escenario B: 1,028 ms
+
+4. Fracción paralelizable (P) se aprovecha mejor:
+- Con distribución real, cada máquina hace su trabajo independiente
+- Solo hay comunicación al final para agregar resultados
+- La parte no paralelizable (1-P) se minimiza
+
+Entonces, si se mejora la distribución porque existiría una escalabilidad horizontal, menos contención por lo que cada máquina trabaja de manera independiente y hay un mejor uso de la Ley de Amdahls.
 
