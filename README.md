@@ -116,20 +116,6 @@ Después de la ejecución:
 
 ![alt text](img/millionAfter.png)
 
-<<<<<<< Updated upstream
-Ahora pasamos a la ejecución con Go; Go de por sí es es demasiado eficiente en su ejecución, haciendo que la concurrencia sea mucho más ligera. Entonces las primeras pruebas de ejecución (con baja cantidad de hilos), el tiempo de ejecución es 0ms, porque lo hace más eficiente de lo que Java lo llega a hacer. Desde 100 hilos se ven los tiempos (diferentes a 0), los cuales dieron los siguientes tiempos:
-
-![alt text](img/go2.png)
-
-![alt text](img/go.png)
-
-Ya teniendo los tiempos utilizando los dos lenguajes, sacamos una gráfica para cada uno de los tiempos y estos fueron los resultados:
-
-Java:
-![alt text](img/tiempoJava.png)
-Go:
-![alt text](img/tiempoGo.png)
-
 # Segundo computador a evaluar
 
 Caracteristicas
@@ -187,6 +173,22 @@ Después de la ejecución:
 
 ![alt text](img/103coreend.png)
 ![alt text](img/103threadend.png)
+
+<<<<<<< Updated upstream
+Ahora pasamos a la ejecución con Go; Go de por sí es es demasiado eficiente en su ejecución, haciendo que la concurrencia sea mucho más ligera. Entonces las primeras pruebas de ejecución (con baja cantidad de hilos), el tiempo de ejecución es 0ms, porque lo hace más eficiente de lo que Java lo llega a hacer. Desde 100 hilos se ven los tiempos (diferentes a 0), los cuales dieron los siguientes tiempos:
+
+![alt text](img/go2.png)
+
+![alt text](img/go.png)
+
+Ya teniendo los tiempos utilizando los dos lenguajes, sacamos una gráfica para cada uno de los tiempos y estos fueron los resultados:
+
+Java:
+![alt text](img/tiempoJava.png)
+Go:
+![alt text](img/tiempoGo.png)
+
+
 
 Como se puede ver, los tiempos son más elevados usando Java que usando Go, Java inicia en aproximadamente 150.000 ms, luego baja encontrando un punto óptimo con 1000 hilos, y luego vuelve a elevarse el tiempo llevando a casi 200.000 ms con 1.000.000 de hilos, mientras que con Go se mantiene cercano a 0ms hasta los 10.000 hilos, ya con 100.000 hilos aumentó el tiempo a 26 ms.
 
